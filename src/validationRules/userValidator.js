@@ -1,14 +1,7 @@
 import DataError from "../results/dataError.js";
-export default class EmployeeValidation {
+export default class UserValidator {
   constructor() {
     this.errors = [];
-  }
-  checkTypeUser(user) {
-    if (user.type === "employee") {
-      return true;
-    } else {
-      new DataError("Wrong user type", user);
-    }
   }
   checkUserValidityForErrors(user) {
     let requiredFields = "id firstName lastName age city salary".split(" ");
@@ -31,6 +24,13 @@ export default class EmployeeValidation {
       this.errors.push(
         new DataError(`Validation problem. ${user.age} is not a number`, user)
       );
+    }
+  }
+  checkTypeUser(user) {
+    if (user.type === "customer") {
+      return true;
+    } else {
+      new DataError("Wrong user type", user);
     }
   }
 }

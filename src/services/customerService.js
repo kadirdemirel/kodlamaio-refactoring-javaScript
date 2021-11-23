@@ -1,21 +1,21 @@
 import UserService from "./userService.js";
 import { users } from "../data/users.js";
 import DataError from "../results/dataError.js";
-import CustomerValidation from "../validationRules/customerValidation.js";
+import CustomerValidator from "../validationRules/customerValidator.js";
 import CustomerRepository from "../repositories/customerRepository.js";
 export default class CustomerService {
   constructor(loggerService) {
     this.loggerService = loggerService;
     this.customerRepository = new CustomerRepository();
-    this.customerValidation = new CustomerValidation();
+    this.customerValidator = new CustomerValidator();
   }
 
   load() {
     for (const user of users) {
-      if (this.customerValidation.checkTypeUser(user)) {
+      if (this.customerValidator.checkTypeUser(user)) {
         this.customerRepository.add(user);
       } else {
-        this.customerValidation.errors.push(
+        this.customerValidator.errors.push(
           new DataError("Wrong user type", user)
         );
       }
@@ -24,9 +24,9 @@ export default class CustomerService {
 
   add(user) {
     if (
-      this.customerValidation.checkTypeUser(user) &&
-      !this.customerValidation.checkUserValidityForErrors(user) &&
-      !this.customerValidation.checkUserAge(user)
+      this.customerValidator.checkTypeUser(user) &&
+      !this.customerValidator.checkUserValidityForErrors(user) &&
+      !this.customerValidator.checkUserAge(user)
     ) {
       this.customerRepository.add(user);
     } else {

@@ -1,5 +1,5 @@
 import DataError from "../results/dataError.js";
-export default class UserValidation {
+export default class CustomerValidator {
   constructor() {
     this.errors = [];
   }

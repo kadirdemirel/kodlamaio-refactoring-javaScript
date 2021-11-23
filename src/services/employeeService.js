@@ -1,22 +1,22 @@
 import UserService from "./userService.js";
 import { users } from "../data/users.js";
 import DataError from "../results/dataError.js";
-import EmployeeValidation from "../validationRules/employeeValidation.js";
+import EmployeeValidator from "../validationRules/employeeValidation.js";
 import EmployeeRepository from "../repositories/employeeRepository.js";
 
 export default class EmployeeService {
   constructor(loggerService) {
     this.loggerService = loggerService;
     this.employeeRepository = new EmployeeRepository();
-    this.employeeValidation = new EmployeeValidation();
+    this.employeeValidator = new EmployeeValidator();
   }
 
   load() {
     for (const user of users) {
-      if (this.employeeValidation.checkTypeUser(user)) {
+      if (this.employeeValidator.checkTypeUser(user)) {
         this.employeeRepository.add(user);
       } else {
-        this.employeeValidation.errors.push(
+        this.employeeValidator.errors.push(
           new DataError("Wrong user type", user)
         );
       }
@@ -25,9 +25,9 @@ export default class EmployeeService {
 
   add(user) {
     if (
-      this.employeeValidation.checkTypeUser(user) &&
-      !thisemployeeValidation.checkUserValidityForErrors(user) &&
-      !this.employeeValidation.checkUserAge(user)
+      this.employeeValidator.checkTypeUser(user) &&
+      !employeeValidator.checkUserValidityForErrors(user) &&
+      !this.employeeValidator.checkUserAge(user)
     ) {
       this.employeeRepository.add(user);
     } else {
